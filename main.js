@@ -87,6 +87,11 @@ function onDragMove() {
   }
 }
 
-let PIXI_APP = new PIXI.Application(800, 300, {backgroundColor : 0x1099bb});
+let PIXI_APP = new PIXI.Application({
+    width: 800,
+    height: 300,
+    backgroundColor: 0x1099bb,
+    resolution: window.devicePixelRatio || 1
+  });
 document.body.appendChild(PIXI_APP.view);
 initall(PIXI_APP, null);
