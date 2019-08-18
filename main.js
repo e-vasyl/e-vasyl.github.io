@@ -21,6 +21,7 @@ function initST(app) {
   app.ticker.add((delta) => {
       // let's spin the spinning text
       spinningText.rotation += 0.03 * delta;
+      TWEEN.update();
   });
 }
 
@@ -69,6 +70,7 @@ function createDraggable(x, y, texture) {
 
 function onDragStart(event) {
   this.data = event.data;
+  this.origPos = {x : this.x, y : this.y};
   this.alpha = 0.5;
   this.dragging = true;
 }
@@ -78,6 +80,10 @@ function onDragEnd() {
   this.alpha = 1;
   // set the interaction data to null
   this.data = null;
+
+  new TWEEN.Tween(this)
+    .to(this.origPos, 500)
+    .start();
 }
 
 function onDragMove() {
