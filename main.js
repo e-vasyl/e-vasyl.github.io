@@ -1,7 +1,7 @@
 
 function initST(app) {
     // create a text object with a nice stroke
-    var spinningText = new PIXI.Text('I\'m very fun!', {
+    let spinningText = new PIXI.Text('I\'m very fun!', {
         fontWeight: 'bold',
         fontSize: 60,
         fontFamily: 'Arial',
@@ -10,16 +10,14 @@ function initST(app) {
         stroke: '#FFFFFF',
         strokeThickness: 6
     });
-        // setting the anchor point to 0.5 will center align the text... great for spinning!
+
+    // setting the anchor point to 0.5 will center align the text... great for spinning!
     spinningText.anchor.set(0.5);
     spinningText.x = app.screen.width / 2;
     spinningText.y = app.screen.height / 2;
         app.stage.addChild(spinningText);
 
-    var count = 0;
-
     app.ticker.add(function() {
-        count += 0.05;
         // let's spin the spinning text
         spinningText.rotation += 0.03;
     });
@@ -31,22 +29,22 @@ function initall(app, img){
 
 
   // create a texture from an image path
-  var texture = PIXI.Texture.fromImage('https://raw.githubusercontent.com/pixijs/examples/gh-pages/examples/assets/bunny.png', true);
-  //var texture = PIXI.Texture.fromImage(img);
+  let texture = PIXI.Texture.fromImage('https://raw.githubusercontent.com/pixijs/examples/gh-pages/examples/assets/bunny.png', true);
+  //let texture = PIXI.Texture.fromImage(img);
 
   // Scale mode for pixelation
   texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-  for (var i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i++) {
     let rx = Math.floor(Math.random() * app.screen.width);
     let ry = Math.floor(Math.random() * app.screen.height);
-    var sprite = createDraggable(rx, ry, texture);
+    let sprite = createDraggable(rx, ry, texture);
     app.stage.addChild(sprite);
   }
 }
 
 function createDraggable(x, y, texture) {
-  var sprite1 = new PIXI.Sprite(texture);
+  let sprite1 = new PIXI.Sprite(texture);
   sprite1.interactive = true;
   sprite1.buttonMode = true;
   sprite1.anchor.set(0.5);
@@ -83,7 +81,7 @@ function onDragEnd() {
 
 function onDragMove() {
   if (this.dragging) {
-    var newPosition = this.data.getLocalPosition(this.parent);
+    let newPosition = this.data.getLocalPosition(this.parent);
     this.x = newPosition.x;
     this.y = newPosition.y;
   }
