@@ -1,84 +1,94 @@
-var app = new PIXI.Application(1000, 300, {backgroundColor : 0x1099bb});
-document.body.appendChild(app.view);
 
-// create a texture from an image path
-var texture = PIXI.Texture.fromImage('https://pixijs.io/examples/required/assets/bunny.png');
+function initST(app) {
+    // create a text object with a nice stroke
+    var spinningText = new PIXI.Text('I\'m very fun!', {
+        fontWeight: 'bold',
+        fontSize: 60,
+        fontFamily: 'Arial',
+        fill: '#cc00ff',
+        align: 'center',
+        stroke: '#FFFFFF',
+        strokeThickness: 6
+    });
+        // setting the anchor point to 0.5 will center align the text... great for spinning!
+    spinningText.anchor.set(0.5);
+    spinningText.x = app.screen.width / 2;
+    spinningText.y = app.screen.height / 2;
+        app.stage.addChild(spinningText);
 
-// Scale mode for pixelation
-texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
+    var count = 0;
 
-for (var i = 0; i < 10; i++) {
-    createBunny(
-        Math.floor(Math.random() * app.screen.width),
-        Math.floor(Math.random() * app.screen.height)
-    );
+    app.ticker.add(function() {
+        count += 0.05;
+        // let's spin the spinning text
+        spinningText.rotation += 0.03;
+    });
 }
 
-function createBunny(x, y) {
+function initall(app, img){
 
-    // create our little bunny friend..
-    var bunny = new PIXI.Sprite(texture);
+  initST(app);
 
-    // enable the bunny to be interactive... this will allow it to respond to mouse and touch events
-    bunny.interactive = true;
 
-    // this button mode will mean the hand cursor appears when you roll over the bunny with your mouse
-    bunny.buttonMode = true;
+  // create a texture from an image path
+  var texture = PIXI.Texture.fromImage('https://raw.githubusercontent.com/pixijs/examples/gh-pages/examples/assets/bunny.png', true);
+  //var texture = PIXI.Texture.fromImage(img);
 
-    // center the bunny's anchor point
-    bunny.anchor.set(0.5);
+  // Scale mode for pixelation
+  texture.baseTexture.scaleMode = PIXI.SCALE_MODES.NEAREST;
 
-    // make it a bit bigger, so it's easier to grab
-    //bunny.scale.set(3);
+  for (var i = 0; i < 10; i++) {
+    let rx = Math.floor(Math.random() * app.screen.width);
+    let ry = Math.floor(Math.random() * app.screen.height);
+    var sprite = createDraggable(rx, ry, texture);
+    app.stage.addChild(sprite);
+  }
+}
 
-    // setup events for mouse + touch using
-    // the pointer events
-    bunny
-        .on('pointerdown', onDragStart)
-        .on('pointerup', onDragEnd)
-        .on('pointerupoutside', onDragEnd)
-        .on('pointermove', onDragMove);
+function createDraggable(x, y, texture) {
+  var sprite1 = new PIXI.Sprite(texture);
+  sprite1.interactive = true;
+  sprite1.buttonMode = true;
+  sprite1.anchor.set(0.5);
 
-        // For mouse-only events
-        // .on('mousedown', onDragStart)
-        // .on('mouseup', onDragEnd)
-        // .on('mouseupoutside', onDragEnd)
-        // .on('mousemove', onDragMove);
+  // make it a bit bigger, so it's easier to grab
+  //sprite1.scale.set(3);
 
-        // For touch-only events
-        // .on('touchstart', onDragStart)
-        // .on('touchend', onDragEnd)
-        // .on('touchendoutside', onDragEnd)
-        // .on('touchmove', onDragMove);
+  // setup events for mouse + touch using
+  // the pointer events
+  sprite1
+    .on('pointerdown', onDragStart)
+    .on('pointerup', onDragEnd)
+    .on('pointerupoutside', onDragEnd)
+    .on('pointermove', onDragMove);
 
-    // move the sprite to its designated position
-    bunny.x = x;
-    bunny.y = y;
-
-    // add it to the stage
-    app.stage.addChild(bunny);
+  // move the sprite to its designated position
+  sprite1.x = x;
+  sprite1.y = y;
+  return sprite1;
 }
 
 function onDragStart(event) {
-    // store a reference to the data
-    // the reason for this is because of multitouch
-    // we want to track the movement of this particular touch
-    this.data = event.data;
-    this.alpha = 0.5;
-    this.dragging = true;
+  this.data = event.data;
+  this.alpha = 0.5;
+  this.dragging = true;
 }
 
 function onDragEnd() {
-    this.alpha = 1;
-    this.dragging = false;
-    // set the interaction data to null
-    this.data = null;
+  this.dragging = false;
+  this.alpha = 1;
+  // set the interaction data to null
+  this.data = null;
 }
 
 function onDragMove() {
-    if (this.dragging) {
-        var newPosition = this.data.getLocalPosition(this.parent);
-        this.x = newPosition.x;
-        this.y = newPosition.y;
-    }
+  if (this.dragging) {
+    var newPosition = this.data.getLocalPosition(this.parent);
+    this.x = newPosition.x;
+    this.y = newPosition.y;
+  }
 }
+
+let PIXI_APP = new PIXI.Application(800, 300, {backgroundColor : 0x1099bb});
+document.body.appendChild(PIXI_APP.view);
+initall(PIXI_APP, null);
