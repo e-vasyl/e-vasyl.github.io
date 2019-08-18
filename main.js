@@ -1,26 +1,27 @@
 
 function initST(app) {
-    // create a text object with a nice stroke
-    let spinningText = new PIXI.Text('I\'m very fun!', {
-        fontWeight: 'bold',
-        fontSize: 60,
-        fontFamily: 'Arial',
-        fill: '#cc00ff',
-        align: 'center',
-        stroke: '#FFFFFF',
-        strokeThickness: 6
-    });
+  // create a text object with a nice stroke
+  let spinningText = new PIXI.Text('I\'m very fun!', {
+    fontWeight: 'bold',
+    fontSize: 60,
+    fontFamily: 'Arial',
+    fill: '#cc00ff',
+    align: 'center',
+    stroke: '#FFFFFF',
+    strokeThickness: 6
+  });
 
-    // setting the anchor point to 0.5 will center align the text... great for spinning!
-    spinningText.anchor.set(0.5);
-    spinningText.x = app.screen.width / 2;
-    spinningText.y = app.screen.height / 2;
-        app.stage.addChild(spinningText);
+  // setting the anchor point to 0.5 will center align the text... great for spinning!
+  spinningText.anchor.set(0.5);
+  spinningText.x = app.screen.width / 2;
+  spinningText.y = app.screen.height / 2;
+  app.stage.addChild(spinningText);
 
-    app.ticker.add(function() {
-        // let's spin the spinning text
-        spinningText.rotation += 0.03;
-    });
+  // use delta to create frame-independent transform
+  app.ticker.add((delta) => {
+      // let's spin the spinning text
+      spinningText.rotation += 0.03 * delta;
+  });
 }
 
 function initall(app, img){
