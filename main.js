@@ -94,14 +94,15 @@ function onDragMove() {
   }
 }
 
-let PIXI_APP = new PIXI.Application({
-    width: 800,
-    height: 300,
-    backgroundColor: 0x1099bb,
-    resolution: window.devicePixelRatio || 1,
-  });
 
 window.onload = () => {
+let PIXI_APP = new PIXI.Application({
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight,
+    backgroundColor: 0x1099bb,
+    //resolution: window.devicePixelRatio || 1,
+    resizeTo: window,
+  });
   document.body.appendChild(PIXI_APP.view);
   initall(PIXI_APP, null);
 }
