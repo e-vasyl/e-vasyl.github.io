@@ -1,9 +1,9 @@
 
 function initST(app) {
   // create a text object with a nice stroke
-  let spinningText = new PIXI.Text('I\'m very fun!', {
+  let spinningText = new PIXI.Text('АБВГҐДЕЄЖЗИІЇКЛМНОПРСТУФХЦЧШЩЬЮЯ\nабвгґдеєжзиіїклмнопрстуфхцчшщьюя', {
     fontWeight: 'bold',
-    fontSize: 60,
+    fontSize: 40,
     fontFamily: 'Arial',
     fill: '#cc00ff',
     align: 'center',
@@ -20,7 +20,7 @@ function initST(app) {
   // use delta to create frame-independent transform
   app.ticker.add((delta) => {
       // let's spin the spinning text
-      spinningText.rotation += 0.03 * delta;
+      spinningText.rotation += 0.003 * delta;
       TWEEN.update();
   });
 }
