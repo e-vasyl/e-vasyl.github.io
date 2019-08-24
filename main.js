@@ -96,13 +96,24 @@ function onDragMove() {
 
 
 window.onload = () => {
-let PIXI_APP = new PIXI.Application({
-    width: document.documentElement.clientWidth,
-    height: document.documentElement.clientHeight,
+  const PIXI_APP = new PIXI.Application({
     backgroundColor: 0x1099bb,
     //resolution: window.devicePixelRatio || 1,
-    resizeTo: window,
+    //autoResize: true,
+    //autoDensity: true,
+    //resizeTo: window,
   });
-  document.body.appendChild(PIXI_APP.view);
+  document.querySelector('#frame').appendChild(PIXI_APP.view);
+  //document.body.appendChild(PIXI_APP.view);
+
+  // Listen for window resize events
+  window.addEventListener('resize', resize);
+
+  function resize() {
+    const parent_rect = PIXI_APP.view.parentNode.getBoundingClientRect();
+    PIXI_APP.renderer.resize(parent_rect.width, parent_rect.height);
+  }
+
+  resize();
   initall(PIXI_APP, null);
 }
